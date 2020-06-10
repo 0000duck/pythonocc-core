@@ -28,7 +28,7 @@ from OCC.Extend.DataExchange.STEP import (read_step_file, write_step_file,
 from OCC.Extend.DataExchange.STL import read_stl_file, write_stl_file
 from OCC.Extend.DataExchange.IGES import read_iges_file, write_iges_file
 from OCC.Extend.DataExchange.SVG import export_shape_to_svg, HAVE_SVGWRITE
-from OCC.Extend.DataExchange.XDE import DocFromSTEP, SceneGrapheFromDoc
+from OCC.Extend.DataExchange.XDE import DocFromSTEP, SceneGraphFromDoc
 import OCC.Extend.DataExchange.X3D
 
 
@@ -119,7 +119,7 @@ class TestExtendDataExchange(unittest.TestCase):
     def test_doc_from_step(self):
         doc_exp = DocFromSTEP(STEP_AP203_SAMPLE_FILE)
         document = doc_exp.get_doc()
-        SceneGrapheFromDoc(document, log=True)
+        SceneGraphFromDoc(document, log=True)
 
 def suite():
     test_suite = unittest.TestSuite()

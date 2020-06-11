@@ -23,13 +23,15 @@ import unittest
 from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeTorus
 from OCC.Core.TopoDS import TopoDS_Compound
 
+from OCC.Extend.TopologyUtils import TopologyExplorer
+
 from OCC.Extend.DataExchange.STEP import (read_step_file, write_step_file,
                                           read_step_file_with_names_colors)
 from OCC.Extend.DataExchange.STL import read_stl_file, write_stl_file
 from OCC.Extend.DataExchange.IGES import read_iges_file, write_iges_file
 from OCC.Extend.DataExchange.SVG import export_shape_to_svg, HAVE_SVGWRITE
 from OCC.Extend.DataExchange.XDE import DocFromSTEP, SceneGraphFromDoc
-import OCC.Extend.DataExchange.X3D
+from OCC.Extend.DataExchange.X3D import X3DShapeExporter, X3DCurveExporter
 
 
 SAMPLES_DIRECTORY = os.path.join('.', 'test_io')
@@ -120,6 +122,18 @@ class TestExtendDataExchange(unittest.TestCase):
         doc_exp = DocFromSTEP(STEP_AP203_SAMPLE_FILE)
         document = doc_exp.get_doc()
         SceneGraphFromDoc(document, log=True)
+
+    def test_x3d_shape_exporter(self):
+        x3d_shp_exporter_1 = X3DShapeExporter(A_TOPODS_SHAPE, compute_normals=False, compute_edges=False)
+        x3d_shp_exporter_2 = X3DShapeExporter(A_TOPODS_SHAPE, compute_normals=False, compute_edges=True)
+        # TODO uncomment the following test
+        #x3d_shp_exporter_3 = X3DShapeExporter(A_TOPODS_SHAPE, compute_normals=True, compute_edges=True)
+
+    def test_x3d_curve_exporter(self): 
+        for e in TopologyExplorer(A_TOPODS_SHAPE).edges():
+            X3DCurveExporter(e)
+        for w in TopologyExplorer(A_TOPODS_SHAPE).wires():
+            X3DCurveExporter(w)
 
 def suite():
     test_suite = unittest.TestSuite()
